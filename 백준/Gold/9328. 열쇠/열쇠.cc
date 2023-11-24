@@ -33,6 +33,7 @@ int main() {
     int cnt=0;
 
 
+    // 가장자리가 문인경우가 주의가 필요하다 나중에 열쇠를 찾게 될수도 있기 때문이다.
     for(int i=0; i<h; i++){
       for(int j=0; j<w; j++){
         cin >> board[i][j];
@@ -54,9 +55,12 @@ int main() {
 
     if(s != "0") for(auto e:s) keys[e - 'a'] = 1;
     
+    // q_entrance는 사용할 배열 , q_temp는 새로운 열쇠를 찾았을때 리셋하는 용도
     queue<pair<int,int>> q_entrance;
     queue<pair<int,int>> q_temp;
 
+
+    // 가장자리에서 입구가 될수 있는것을 전부 큐에 넣는다
     for(int i=0; i<h; i++){
       for(int j=0; j<w; j++){
         if(i==0 || i==h-1 || j==0 || j==w-1){
@@ -94,8 +98,11 @@ int main() {
         if(nx < 0 || ny < 0 || nx >= h || ny >= w) continue;
         if(vis[nx][ny]) continue;
         if(board[nx][ny] == '*') continue;
+
+        // 열쇠면 원래 있던 열쇠인지 아닌지 case 분류 해야함
         if(l >= 0 && l <= 25){
 
+          // 원래 없는 열쇠인데 입구에 있었다면 입구 큐를 새롭게 갱신하고 큐를 리셋해야 한다.
           if(!keys[l]){
             keys[l] = 1;
             if(doors[l]) for(auto e:door_cor[l]) q_temp.push(e);
@@ -108,12 +115,14 @@ int main() {
           q_entrance.push({nx,ny});
         }
 
+        // 문을 만나면 열쇠가 있는지 없는지 확인
         if(u >= 0 && u <= 25){
           if(!keys[u]) continue;
           vis[nx][ny] = 1;
           q_entrance.push({nx,ny});
         }
 
+        // 문서를 찾으면 cnt를 1 증가시키고 중복을 방지하기 위해서 .으로 바꿔야한다.
         if(board[nx][ny] == '$'){
           cnt++;
           vis[nx][ny] = 1;
