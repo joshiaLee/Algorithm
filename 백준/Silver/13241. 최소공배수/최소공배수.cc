@@ -12,10 +12,7 @@ int main(void){
   
   long long a,b;
   cin >> a >> b;
-  if(a==b){
-    cout << a << '\n';
-    return 0;
-  }
+
   long long g = gcd(max(a,b), min(a,b));
   cout << (a/g) * (b/g) * g << '\n';
 }
