@@ -1,2 +1,1 @@
-for i in range(1,int(input())+1):
-    print(str(i) + ". " + input())
+[print(str(i) + ". " + input()) for i in range(1, int(input()) + 1)]
