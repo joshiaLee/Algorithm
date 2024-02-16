@@ -1,49 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<int> adj[10005];
-int num[10005];
-int vis[10005];
+const int NMX = 10'002;
+
 int mx;
+int sc[NMX];
+vector<int> adj[NMX];
+bool vis[NMX];
 
-void dfs(int cur, int root){
-  num[root]++;
+void trav(int cur) {
   vis[cur] = 1;
-
-  for(int nxt: adj[cur]){
+  sc[cur]++;
+  mx = max(mx, sc[cur]);
+  for(int nxt : adj[cur]) {
     if(vis[nxt]) continue;
-    dfs(nxt, root);
+    trav(nxt);
   }
 }
 
-int main(){
+int main() {
   ios::sync_with_stdio(0);
   cin.tie(0);
 
-  int n,m;
-  cin >> n >> m;
-
-  for(int i=0; i<m; i++){
-    int u,v;
+  int n, m; cin >> n >> m;
+  while(m--) {
+    int u, v;
     cin >> u >> v;
-
-    adj[v].push_back(u);
+    adj[u].push_back(v);
+  }
+  fill(sc, sc + NMX, 0);
+  for(int i = 1; i <= n; i++) {
+    fill(vis, vis + NMX, 0);
+    trav(i);
   }
 
-  for(int i=1; i<=n; i++){
-    fill(vis, vis+10005, 0);
-    dfs(i, i);
-  }
-
-  int mx = *max_element(num+1, num+1+n);
-
-  for(int i=1; i<=n; i++){
-    if(num[i] == mx){
-      cout << i << ' ';
-    }
-  }
-
-
-  
-
+  for(int i = 1; i <= n; i++)
+    if(sc[i] == mx) cout << i << ' ';
 }
