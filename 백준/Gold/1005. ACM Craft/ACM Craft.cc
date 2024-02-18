@@ -12,7 +12,7 @@ int main(){
     int n,k,m;
     cin >> n >> k;
     vector<int> adj[1005];
-    long long d[1005] = {0};
+    long d[1005] = {0};
     int deg[1005] = {0};
 
     for(int i=1; i<=n; i++)
